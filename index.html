@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors Game</title>
+    <title>Rock Paper Scissors Game</title>
+</head>
+<body>
+    <div style="max-width: 600px; margin: 20px auto; padding: 20px; background-color: #f0f0f0; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); text-align: center;">
+        <h1>Rock Paper Scissors Game</h1>
+        <div style="display: flex; justify-content: space-around; margin-bottom: 20px;">
+            <div id="player1">
+                <h2>Player 1: <span id="player1Name"></span></h2>
+                <p>Score: <span id="player1Score">0</span></p>
+            </div>
+            <div id="player2">
+                <h2>Player 2: <span id="player2Name"></span></h2>
+                <p>Score: <span id="player2Score">0</span></p>
+            </div>
+        </div>
+        <div id="gameResult" style="margin-bottom: 20px;"></div>
+        <button id="playRoundBtn" style="padding: 10px 20px; font-size: 16px; background-color: #007bff; color: #fff; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.3s ease;">Play Round</button>
+    </div>
+
+    <script>
+        // Initialize players
+        const player1 = {
+            name: "Player 1",
+            score: 0
+        };
+        const player2 = {
+            name: "Player 2",
+            score: 0
+        };
+
+        // Function to generate random hand
+        function getHand() {
+            const hands = ['rock', 'paper', 'scissors'];
+            return hands[Math.floor(Math.random() * hands.length)];
+        }
+
+        // Function to play a single round
+        function playSingleRound() {
+            const hand1 = getHand();
+            const hand2 = getHand();
+
+            if (hand1 === hand2) {
+                gameResultEl.textContent = `It's a tie! Both chose ${hand1}.`;
+            } else if (
+                (hand1 === 'rock' && hand2 === 'scissors') ||
+                (hand1 === 'paper' && hand2 === 'rock') ||
+                (hand1 === 'scissors' && hand2 === 'paper')
+            ) {
+                player1.score++;
+                player1ScoreEl.textContent = player1.score;
+                gameResultEl.textContent = `${player1.name} wins with ${hand1} against ${hand2}.`;
+            } else {
+                player2.score++;
+                player2ScoreEl.textContent = player2.score;
+                gameResultEl.textContent = `${player2.name} wins with ${hand2} against ${hand1}.`;
+            }
+
+            if (player1.score >= 3 || player2.score >= 3) {
+                endGame();
+            }
+        }
+
+        // Function to end the game
+        function endGame() {
+            playRoundBtn.disabled = true;
+            const winner = player1.score >= 3 ? player1.name : player2.name;
+            gameResultEl.textContent += ` ${winner} is the winner!`;
+        }
+
+        // DOM elements
+        const player1NameEl = document.getElementById('player1Name');
+        const player1ScoreEl = document.getElementById('player1Score');
+        const player2NameEl = document.getElementById('player2Name');
+        const player2ScoreEl = document.getElementById('player2Score');
+        const gameResultEl = document.getElementById('gameResult');
+        const playRoundBtn = document.getElementById('playRoundBtn');
+
+        // Initialize player names
+        player1NameEl.textContent = player1.name;
+        player2NameEl.textContent = player2.name;
+        
+        // Event listener for play round button
+        playRoundBtn.addEventListener('click', playSingleRound);
+    </script>
+</body>
+</html>
